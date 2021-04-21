@@ -35,7 +35,7 @@
 4. Install the kernel module from the building dir
 
     `insmod cmpe283-1.ko`
-    if it does not work, use":
+    if it does not work, use:
     'sudo insmod cmpe283-1.ko'
 
 4. Check the print out from the kernel module using "dmesg" command
