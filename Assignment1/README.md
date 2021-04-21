@@ -4,6 +4,7 @@
   Setup the enviornment with VirtualBox and CentOS 8, and build the kernel module of printing out info of IA32_VMX_PROCBASED_CTLS and IA32_VMX_PROCBASED_CTLS2 controls.
 
 * Su Yuan(014557660)
+
  Setup the enviornment with VirtualBox and Ubuntu, and build the kernel module of printing out info of IA32_VMX_EXIT_CTLS and IA32_VMX_ENTRY_CTLS controls.
  
 # Enviornment Setup
@@ -34,6 +35,8 @@
 4. Install the kernel module from the building dir
 
     `insmod cmpe283-1.ko`
+    if it does not work, use":
+    'sudo insmod cmpe283-1.ko'
 
 4. Check the print out from the kernel module using "dmesg" command
 
