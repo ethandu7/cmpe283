@@ -109,6 +109,36 @@ struct capability_info procbased2[27] =
     { 28, "Enable ENCLV Exiting"}
 };
 
+struct capability_info exitctls[11] =
+{
+	{ 2, "Save debug controls" },
+	{ 9, "Host address space size" },
+	{ 12, "Load IA32_PERF_GLOBAL_CTRL" },
+	{ 15, "Acknowledge Interrupt on exit" },
+	{ 18, "Save IA32_PAT" },
+	{ 19, "Load IA32_PAT" },
+	{ 20, "Save IA32_EFER" },
+	{ 21, "Load IA32_EFER" },
+	{ 22, "Save VMX-preemption timer value" },
+	{ 23, "Clear IA32_BNDCFGS" },
+	{ 24, "Conceal VM exits from Intel PT" }
+
+};
+
+struct capability_info entryctls[9] =
+{
+	{ 2, "Load debug controls" },
+	{ 9, "IA-32e mode guest" },
+	{ 10, "Entry to SMM" },
+	{ 11, "Deactivate dual-monito treatment" },
+	{ 13, "load IA32_PERF_GLOBAL_CTRL" },
+	{ 14, "Load IA32_PAT" },
+	{ 15, "Load IA32_EFER" },
+	{ 16, "Load IA32_BNDCFGS" },
+	{ 17, "Conceal VM entries from Intel PT" }
+};
+
+
 /*
  * report_capability
  *
@@ -171,7 +201,20 @@ detect_vmx_features(void)
         pr_info("Procbased Controls 2 MSR: 0x%llx\n",
                 (uint64_t)(lo | (uint64_t)hi << 32));
         report_capability(procbased2, 27, lo, hi);
+        
+        /* Exit Controls */
+	rdmsr(IA32_VMX_EXIT_CTLS, lo, hi);
+	pr_info("Exit Controls MSR: 0x%llx\n",
+		(uint64_t)(lo | (uint64_t)hi << 32));
+	report_capability(exitctls, 11, lo, hi);
+	
+	/* Entry Controls */
+	rdmsr(IA32_VMX_ENTRY_CTLS, lo, hi);
+	pr_info("Entry Controls MSR: 0x%llx\n",
+		(uint64_t)(lo | (uint64_t)hi << 32));
+	report_capability(entryctls, 9, lo, hi);
 }
+
 
 /*
  * init_module
