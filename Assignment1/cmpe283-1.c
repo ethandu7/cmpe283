@@ -44,69 +44,69 @@ struct capability_info pinbased[5] =
 
 /*
  * Proc Based capabilities
- * Referred SDM volume 3, section 24.6.1
+ * Referred SDM volume 3, section 24.6.2
  * By: Jiang Du
  */
 struct capability_info procbased[21] =
 {
-    {2 , "Interrupt-window Exiting" },
-    {3 , "Use TSC Offsetting" },
-    {7 , "HLT Exiting" },
-    {9 , "INVLPG Exiting" },
-    {10 , "MWAIT Exiting" },
-    {11 , "RDPMC Exiting" },
-    {12 , "RDTSC Exiting" },
-    {15 , "CR3-load Exiting" },
-    {16 , "CR3-store Exiting" },
-    {19 , "CR8-load Exiting" },
-    {20 , "CR8-store Exiting" },
-    {21 , "Use TPR Shadow" },
-    {22 , "NMI-window Exiting" },
-    {23 , "MOV-DR Exiting" },
-    {24 , "Unconditional I/O" },
-    {25 , "Use I/O Bitmaps" },
-    {27 , "Monitor Trap Flag" },
-    {28 , "Use MSR Bitmaps" },
-    {29 , "MONITOR Exiting" },
-    {30 , "PAUSE Exiting" },
-    {31 , "Activate Secondary Controls" }
+    {2 , "Interrupt-window Exiting"},
+    {3 , "Use TSC Offsetting"},
+    {7 , "HLT Exiting"},
+    {9 , "INVLPG Exiting"},
+    {10 , "MWAIT Exiting"},
+    {11 , "RDPMC Exiting"},
+    {12 , "RDTSC Exiting"},
+    {15 , "CR3-load Exiting"},
+    {16 , "CR3-store Exiting"},
+    {19 , "CR8-load Exiting"},
+    {20 , "CR8-store Exiting"},
+    {21 , "Use TPR Shadow"},
+    {22 , "NMI-window Exiting"},
+    {23 , "MOV-DR Exiting"},
+    {24 , "Unconditional I/O Exiting"},
+    {25 , "Use I/O Bitmaps"},
+    {27 , "Monitor Trap Flag"},
+    {28 , "Use MSR Bitmaps"},
+    {29 , "MONITOR Exiting"},
+    {30 , "PAUSE Exiting"},
+    {31 , "Activate Secondary Controls"}
 };
 
 /*
  * Proc Based-Secondary capabilities
- * Referred SDM volume 3, section 24.6.1
+ * Referred SDM volume 3, section 24.6.2
  * By: Jiang Du
  */
 struct capability_info procbased2[27] =
 {
 
-    { 0, "Virtualize APIC Accesses" },
-    { 1, "Enable EPT" },
-    { 2, "Descriptor-table Exiting" },
-    { 3, "Enable RDTSCP" },
-    { 4, "Virtualize x2APIC Mode" },
-    { 5, "Enable VPID" },
-    { 6, "WBINVD Exiting" },
-    { 7, "Unrestricted Guest" },
-    { 8, "APIC-register Virtualization" },
-    { 9, "Virtual-interrupt Delivery" },
-    { 10, "PAUSE-loop Exiting" },
-    { 11, "RDRAND Exiting" },
-    { 12, "Enable INVPCID" },
-    { 13, "Enable VM Functions" },
-    { 14, "VMCS Shadowing" },
-    { 15, "Enable ENCLS Exiting" },
-    { 16, "RDSEED Exiting" },
-    { 17, "Enable PML" },
-    { 18, "EPT-violation #VE" },
-    { 19, "Conceal VMX From PT" },
-    { 20, "Enable XSAVES/XRSTORS" },
-    { 22, "Mode-based Execute Control for EPT" },
-    { 23, "Sub-page Write Permissions for EPT"},
-    { 24, "Intel PT Uses Guest Physical Address"},
-    { 25, "Use TSC Scaling" },
-    { 26, "Enable User Wait and Pause"},
-    { 28, "Enable ENCLV Exiting"}
+    {0, "Virtualize APIC Accesses"},
+    {1, "Enable EPT"},
+    {2, "Descriptor-table Exiting"},
+    {3, "Enable RDTSCP"},
+    {4, "Virtualize x2APIC Mode"},
+    {5, "Enable VPID"},
+    {6, "WBINVD Exiting"},
+    {7, "Unrestricted Guest"},
+    {8, "APIC-register Virtualization"},
+    {9, "Virtual-interrupt Delivery"},
+    {10, "PAUSE-loop Exiting"},
+    {11, "RDRAND Exiting"},
+    {12, "Enable INVPCID"},
+    {13, "Enable VM Functions"},
+    {14, "VMCS Shadowing"},
+    {15, "Enable ENCLS Exiting"},
+    {16, "RDSEED Exiting"},
+    {17, "Enable PML"},
+    {18, "EPT-violation #VE"},
+    {19, "Conceal VMX From PT"},
+    {20, "Enable XSAVES/XRSTORS"},
+    {22, "Mode-based Execute Control for EPT"},
+    {23, "Sub-page Write Permissions for EPT"},
+    {24, "Intel PT Uses Guest Physical Address"},
+    {25, "Use TSC Scaling"},
+    {26, "Enable User Wait and Pause"},
+    {28, "Enable ENCLV Exiting"}
 };
 
 struct capability_info exitctls[11] =
