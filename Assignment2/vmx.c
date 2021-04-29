@@ -74,6 +74,9 @@ static const struct x86_cpu_id vmx_cpu_id[] = {
 MODULE_DEVICE_TABLE(x86cpu, vmx_cpu_id);
 #endif
 
+extern atomic_t num_of_exits;
+extern atomic64_t num_of_cpu_cycles;
+
 bool __read_mostly enable_vpid = 1;
 module_param_named(vpid, enable_vpid, bool, 0444);
 
@@ -6104,7 +6107,10 @@ unexpected_vmexit:
 
 static int vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 {
+	uint64_t begin = rdtsc();
+	arch_atomic_inc(&num_of_exits);
 	int ret = __vmx_handle_exit(vcpu, exit_fastpath);
+	arch_atomic64_add(rdtsc() - begin, &num_of_cpu_cycles);
 
 	/*
 	 * Even when current exit reason is handled by KVM internally, we

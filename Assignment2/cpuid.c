@@ -15,6 +15,9 @@
 #include <linux/uaccess.h>
 #include <linux/sched/stat.h>
 
+#include <linux/types.h>
+#include <linux/atomic.h>
+
 #include <asm/processor.h>
 #include <asm/user.h>
 #include <asm/fpu/xstate.h>
@@ -30,6 +33,12 @@
  */
 u32 kvm_cpu_caps[NCAPINTS] __read_mostly;
 EXPORT_SYMBOL_GPL(kvm_cpu_caps);
+
+atomic_t num_of_exits = ATOMIC_INIT(0);
+EXPORT_SYMBOL(num_of_exits);
+atomic64_t num_of_cpu_cycles = ATOMIC64_INIT(0);
+EXPORT_SYMBOL(num_of_cpu_cycles);
+
 
 static u32 xstate_required_size(u64 xstate_bv, bool compacted)
 {
@@ -1138,7 +1147,16 @@ int kvm_emulate_cpuid(struct kvm_vcpu *vcpu)
 
 	eax = kvm_rax_read(vcpu);
 	ecx = kvm_rcx_read(vcpu);
-	kvm_cpuid(vcpu, &eax, &ebx, &ecx, &edx, false);
+	if (eax == 0x4FFFFFFF) {
+		eax = arch_atomic_read(&num_of_exits);
+		u64 copy = arch_atomic64_read(&num_of_cpu_cycles);
+		printk("CPUID(0x4FFFFFFF), exits=%d, cycles=%llu\n", eax, copy);
+		ebx = (copy >> 32);	// higher 32 bits to ebx
+		ecx = (copy & 0xFFFFFFFF); // lower 32 bits to ecx
+		edx = 0;
+	} else {
+		kvm_cpuid(vcpu, &eax, &ebx, &ecx, &edx, false);
+	}
 	kvm_rax_write(vcpu, eax);
 	kvm_rbx_write(vcpu, ebx);
 	kvm_rcx_write(vcpu, ecx);
