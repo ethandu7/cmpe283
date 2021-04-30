@@ -4,7 +4,9 @@
   Setup the enviornment with VirtualBox and Ubuntu . Forked the torvalds/linux repo and built a local version of kernel, and then made changes to
   cpuid.c file by adding code into "kvm_emulate_cpuid" function to caputer the numbers we need. I also setup the nested VM and implemented the test program
   to conduct the test.
+  
 * Su Yuan(014557660)
+  Setup the enviornment with VirtualBox and Ubuntu on MacOS. Forked the torvalds/linux repo and built a local version of kernel. Made changes to vmx.c file. Setup the nested VM. Implemented the test program to conduct the test. Debugged the program. 
 
   
  
