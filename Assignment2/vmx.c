@@ -6107,9 +6107,10 @@ unexpected_vmexit:
 
 static int vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 {
+	int ret;
 	uint64_t begin = rdtsc();
 	arch_atomic_inc(&num_of_exits);
-	int ret = __vmx_handle_exit(vcpu, exit_fastpath);
+	ret = __vmx_handle_exit(vcpu, exit_fastpath);
 	arch_atomic64_add(rdtsc() - begin, &num_of_cpu_cycles);
 
 	/*

@@ -1141,6 +1141,7 @@ EXPORT_SYMBOL_GPL(kvm_cpuid);
 int kvm_emulate_cpuid(struct kvm_vcpu *vcpu)
 {
 	u32 eax, ebx, ecx, edx;
+	u64 cpy;
 
 	if (cpuid_fault_enabled(vcpu) && !kvm_require_cpl(vcpu, 0))
 		return 1;
@@ -1149,10 +1150,10 @@ int kvm_emulate_cpuid(struct kvm_vcpu *vcpu)
 	ecx = kvm_rcx_read(vcpu);
 	if (eax == 0x4FFFFFFF) {
 		eax = arch_atomic_read(&num_of_exits);
-		u64 copy = arch_atomic64_read(&num_of_cpu_cycles);
-		printk("CPUID(0x4FFFFFFF), exits=%d, cycles=%llu\n", eax, copy);
-		ebx = (copy >> 32);	// higher 32 bits to ebx
-		ecx = (copy & 0xFFFFFFFF); // lower 32 bits to ecx
+		cpy = arch_atomic64_read(&num_of_cpu_cycles);
+		printk("CPUID(0x4FFFFFFF), exits=%d, cycles=%llu\n", eax, cpy);
+		ebx = (cpy >> 32);	// higher 32 bits to ebx
+		ecx = (cpy & 0xFFFFFFFF); // lower 32 bits to ecx
 		edx = 0;
 	} else {
 		kvm_cpuid(vcpu, &eax, &ebx, &ecx, &edx, false);
