@@ -39,6 +39,11 @@ EXPORT_SYMBOL(num_of_exits);
 atomic64_t num_of_cpu_cycles = ATOMIC64_INIT(0);
 EXPORT_SYMBOL(num_of_cpu_cycles);
 
+atomic_t counts_of_exits[69] = { 
+	[0 ... 68] = ATOMIC_INIT(0) 
+};
+EXPORT_SYMBOL(counts_of_exits);
+
 
 static u32 xstate_required_size(u64 xstate_bv, bool compacted)
 {
@@ -1141,7 +1146,6 @@ EXPORT_SYMBOL_GPL(kvm_cpuid);
 int kvm_emulate_cpuid(struct kvm_vcpu *vcpu)
 {
 	u32 eax, ebx, ecx, edx;
-	u64 cpy;
 
 	if (cpuid_fault_enabled(vcpu) && !kvm_require_cpl(vcpu, 0))
 		return 1;
@@ -1150,11 +1154,22 @@ int kvm_emulate_cpuid(struct kvm_vcpu *vcpu)
 	ecx = kvm_rcx_read(vcpu);
 	if (eax == 0x4FFFFFFF) {
 		eax = arch_atomic_read(&num_of_exits);
-		cpy = arch_atomic64_read(&num_of_cpu_cycles);
-		printk("CPUID(0x4FFFFFFF), exits=%d, cycles=%llu\n", eax, cpy);
-		ebx = (cpy >> 32);	// higher 32 bits to ebx
-		ecx = (cpy & 0xFFFFFFFF); // lower 32 bits to ecx
+		printk("CPUID(0x4FFFFFFF), exits=%d, cycles=%llu\n", eax, arch_atomic64_read(&num_of_cpu_cycles));
+		ebx = (arch_atomic64_read(&num_of_cpu_cycles) >> 32);	// higher 32 bits to ebx
+		ecx = (arch_atomic64_read(&num_of_cpu_cycles) & 0xFFFFFFFF); // lower 32 bits to ecx
 		edx = 0;
+	} else if (eax == 0x4FFFFFFE) {
+		if (ecx < 0 || ecx == 35 || ecx == 38 || ecx == 42 || ecx == 65 || ecx > 68) {
+			printk(KERN_INFO "Exit type %u is not defined by the SDM\n", ecx);
+			eax = ebx = ecx = 0;
+			edx = 0xFFFFFFFF;
+		} else {
+			printk(KERN_INFO "CPUID(0x4FFFFFFE), exit number=%u exits=%d\n", 
+				ecx, arch_atomic_read(&counts_of_exits[ecx]));
+			// If exit type is not enabled in KVM, the count will be 0.
+			eax = arch_atomic_read(&counts_of_exits[ecx]);  
+			ebx = ecx = edx = 0;
+		}
 	} else {
 		kvm_cpuid(vcpu, &eax, &ebx, &ecx, &edx, false);
 	}

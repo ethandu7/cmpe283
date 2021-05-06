@@ -77,6 +77,8 @@ MODULE_DEVICE_TABLE(x86cpu, vmx_cpu_id);
 extern atomic_t num_of_exits;
 extern atomic64_t num_of_cpu_cycles;
 
+extern atomic_t counts_of_exits[69];
+
 bool __read_mostly enable_vpid = 1;
 module_param_named(vpid, enable_vpid, bool, 0444);
 
@@ -5950,6 +5952,8 @@ static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 	union vmx_exit_reason exit_reason = vmx->exit_reason;
 	u32 vectoring_info = vmx->idt_vectoring_info;
 	u16 exit_handler_index;
+
+	arch_atomic_inc(&counts_of_exits[exit_reason.basic]);
 
 	/*
 	 * Flush logged GPAs PML buffer, this will make dirty_bitmap more
