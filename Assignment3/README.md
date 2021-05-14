@@ -8,7 +8,7 @@
 * Su Yuan(014557660)
   * Set up the enviornment.
   * Made changes to vmx.c file. 
-  * participate in the testing.    
+  * Participate in the testing.    
 
   
  
