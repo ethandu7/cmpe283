@@ -3,12 +3,20 @@
 
   * Run the code from [Assignment3](https://github.com/ethandu7/cmpe283/tree/main/Assignment3) with ept disabled, e.g. shadow paging.
   
-* Su Yuan(014557660)
+* Su Yuan(014557660) 
+
+ * Run the code with ept enabled. 
 
   
  
 # Exit counts
-EPT Enabled 
+EPT Enabled
+![image](https://user-images.githubusercontent.com/61606121/118226559-0fbcc900-b43c-11eb-94a5-eac6c113e767.png)
+![image](https://user-images.githubusercontent.com/61606121/118226586-19463100-b43c-11eb-890d-4aa65398f45c.png)
+![image](https://user-images.githubusercontent.com/61606121/118226600-1f3c1200-b43c-11eb-8226-926f239fb72e.png)
+![image](https://user-images.githubusercontent.com/61606121/118226608-24995c80-b43c-11eb-8d6e-4eb9491db2b1.png)
+
+
     
 EPT Disabled
 
